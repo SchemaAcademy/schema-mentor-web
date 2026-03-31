@@ -1,6 +1,7 @@
 export const simulatorRoutes = {
   bptree: "/simulators/bptree",
   bitcask: "/simulators/bitcask",
+  lsm: "/simulators/lsm",
 } as const;
 
 export type SimulatorId = keyof typeof simulatorRoutes;
@@ -27,6 +28,11 @@ export function getSimulatorIndexItems(): SimulatorIndexItem[] {
       id: "bitcask",
       label: "Bitcask (Append-only KV POC)",
       route: getSimulatorRoute("bitcask"),
+    },
+    {
+      id: "lsm",
+      label: "LSM Tree (coming soon)",
+      route: getSimulatorRoute("lsm"),
     },
   ];
 }
