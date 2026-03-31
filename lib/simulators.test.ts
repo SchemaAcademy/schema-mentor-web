@@ -6,6 +6,7 @@ describe("getSimulatorRoute", () => {
     const cases = [
       { simulatorId: "bptree" as const, expected: "/simulators/bptree" },
       { simulatorId: "bitcask" as const, expected: "/simulators/bitcask" },
+      { simulatorId: "lsm" as const, expected: "/simulators/lsm" },
     ];
 
     cases.forEach(({ simulatorId, expected }) => {
@@ -26,6 +27,11 @@ describe("getSimulatorIndexItems", () => {
         id: "bitcask" as const,
         label: "Bitcask (Append-only KV POC)",
         route: "/simulators/bitcask",
+      },
+      {
+        id: "lsm" as const,
+        label: "LSM Tree (coming soon)",
+        route: "/simulators/lsm",
       },
     ];
 
