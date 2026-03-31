@@ -3,6 +3,7 @@ import { getSimulatorRoute } from "@/lib/simulators";
 
 export default function Home() {
   const bptreeRoute = getSimulatorRoute("bptree");
+  const bitcaskRoute = getSimulatorRoute("bitcask");
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
@@ -16,15 +17,20 @@ export default function Home() {
         <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
           <h2 className="text-xl font-semibold">Storage Engine Simulators</h2>
           <p className="mt-2 text-zinc-600 dark:text-zinc-300">
-            Start with the B+Tree module to learn insertions, node splits, and
-            query routing through step playback.
+            B+Tree for insertions and search routing; Bitcask for an append-only KV log and keydir POC.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href={bptreeRoute}
               className="inline-flex rounded bg-zinc-900 px-4 py-2 text-sm text-white dark:bg-zinc-100 dark:text-zinc-900"
             >
               Open B+Tree simulator
+            </Link>
+            <Link
+              href={bitcaskRoute}
+              className="inline-flex rounded border border-zinc-300 px-4 py-2 text-sm dark:border-zinc-700"
+            >
+              Open Bitcask POC
             </Link>
           </div>
         </div>

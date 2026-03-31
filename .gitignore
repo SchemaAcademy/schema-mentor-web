@@ -20,6 +20,9 @@
 # production
 /build
 
+# local bitcask POC data (Next.js API)
+/.data/
+
 # misc
 .DS_Store
 *.pem
