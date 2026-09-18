@@ -1,41 +1,21 @@
-import Link from "next/link";
-import { getSimulatorIndexItems } from "@/lib/simulators";
-
+import type { Metadata } from "next";
+import { LabCatalog } from "@/app/components/LabCatalog";
+export const metadata: Metadata = { title: "交互实验室" };
 export default function SimulatorsIndexPage() {
-  const items = getSimulatorIndexItems();
-
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-      <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-16 sm:px-10">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold tracking-tight">Simulators</h1>
-          <Link
-            href="/"
-            className="rounded border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700"
-          >
-            Back to home
-          </Link>
-        </div>
-        <p className="max-w-3xl text-zinc-600 dark:text-zinc-300">
-          Choose a simulator to explore storage engine internals.
+    <main id="main" className="page">
+      <div className="page-heading">
+        <div className="eyebrow">THE PLAYGROUND</div>
+        <h1>交互实验室</h1>
+        <p>从一个可观察的小实验，理解一个真实的存储原理。</p>
+      </div>
+      <LabCatalog />
+      <div className="catalog-note">
+        <strong>从 B+ Tree 开始</strong>
+        <p>
+          不需要数据库环境。先观察一个节点如何分裂，再修改容量与插入顺序，比较同一组数据形成的不同结构。
         </p>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          {items.map((item) => (
-            <Link
-              key={item.id}
-              href={item.route}
-              className="rounded-xl border border-zinc-200 bg-white p-6 transition hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900"
-            >
-              <div className="text-lg font-semibold">{item.label}</div>
-              <div className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-                Open simulator module and replay teaching steps.
-              </div>
-            </Link>
-          ))}
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
-

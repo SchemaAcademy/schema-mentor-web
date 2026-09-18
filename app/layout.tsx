@@ -1,37 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { SiteNav } from "@/app/components/SiteNav";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "SchemaMentor",
+  title: {
+    default: "SchemaMentor · 看见存储引擎的内部",
+    template: "%s · SchemaMentor",
+  },
   description:
-    "An interactive learning product for database internals and storage engines.",
+    "亲手操作 B+ Tree，逐步观察查找、插入与节点分裂。一个可交互的存储引擎知识空间。",
 };
-
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">
+    <html lang="zh-CN">
+      <body>
         <SiteNav />
-        {children}
+        <div className="workspace">{children}</div>
       </body>
     </html>
   );

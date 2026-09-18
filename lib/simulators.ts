@@ -26,12 +26,12 @@ export function getSimulatorIndexItems(): SimulatorIndexItem[] {
     },
     {
       id: "bitcask",
-      label: "Bitcask (Append-only KV POC)",
+      label: "Bitcask (Append-only Log & Keydir)",
       route: getSimulatorRoute("bitcask"),
     },
     {
       id: "lsm",
-      label: "LSM Tree (coming soon)",
+      label: "LSM Tree (MemTable, Flush & Compaction)",
       route: getSimulatorRoute("lsm"),
     },
   ];

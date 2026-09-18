@@ -25,12 +25,12 @@ describe("getSimulatorIndexItems", () => {
       },
       {
         id: "bitcask" as const,
-        label: "Bitcask (Append-only KV POC)",
+        label: "Bitcask (Append-only Log & Keydir)",
         route: "/simulators/bitcask",
       },
       {
         id: "lsm" as const,
-        label: "LSM Tree (coming soon)",
+        label: "LSM Tree (MemTable, Flush & Compaction)",
         route: "/simulators/lsm",
       },
     ];

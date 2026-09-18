@@ -92,7 +92,7 @@ function insertIntoLeaf(
   const nextKeys = [...leaf.keys, key].sort((a, b) => a - b);
   if (nextKeys.length <= config.maxLeafKeys) {
     return {
-      node: createLeaf(nextKeys),
+      node: { ...createLeaf(nextKeys), id: leaf.id },
       inserted: true,
     };
   }
@@ -100,7 +100,7 @@ function insertIntoLeaf(
   const splitIndex = Math.ceil(nextKeys.length / 2);
   const leftKeys = nextKeys.slice(0, splitIndex);
   const rightKeys = nextKeys.slice(splitIndex);
-  const leftLeaf = createLeaf(leftKeys);
+  const leftLeaf = { ...createLeaf(leftKeys), id: leaf.id };
   const rightLeaf = createLeaf(rightKeys);
 
   return {
@@ -150,7 +150,7 @@ function insertIntoInternal(
 
   if (nextKeys.length <= config.maxInternalKeys) {
     return {
-      node: createInternal(nextKeys, nextChildren),
+      node: { ...createInternal(nextKeys, nextChildren), id: internal.id },
       inserted: true,
     };
   }
@@ -162,7 +162,10 @@ function insertIntoInternal(
   const leftChildren = nextChildren.slice(0, mid + 1);
   const rightChildren = nextChildren.slice(mid + 1);
 
-  const leftInternal = createInternal(leftKeys, leftChildren);
+  const leftInternal = {
+    ...createInternal(leftKeys, leftChildren),
+    id: internal.id,
+  };
   const rightInternal = createInternal(rightKeys, rightChildren);
 
   return {

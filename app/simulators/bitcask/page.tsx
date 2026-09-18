@@ -1,28 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BPlusTreeSimulator from "@/app/components/BPlusTreeSimulator";
-export const metadata: Metadata = { title: "B+ Tree 交互实验" };
-export default function BPlusTreePage() {
+import BitcaskSimulator from "@/app/components/BitcaskSimulator";
+
+export const metadata: Metadata = { title: "Bitcask 交互实验" };
+
+export default function BitcaskPage() {
   return (
     <main id="main" className="page lab-page">
       <div className="lab-breadcrumb">
         <Link href="/simulators">交互实验室</Link>
         <span>/</span>
-        <span>B+ Tree</span>
+        <span>Bitcask</span>
       </div>
       <div className="lab-heading">
         <div>
-          <div className="eyebrow">EXPERIMENT 01 / ORDERED INDEX</div>
+          <div className="eyebrow">EXPERIMENT 03 / KEY-VALUE</div>
           <h1>
-            B+ Tree <span>从一次插入开始</span>
+            Bitcask <span>最新的值，藏在什么位置</span>
           </h1>
-          <p>沿着一个键的旅程，观察有序索引如何生长。</p>
+          <p>观察一份追加日志和内存索引如何配合，避免读取旧版本。</p>
         </div>
         <Link href="/guide" className="button secondary">
           阅读学习指南 ↗
         </Link>
       </div>
-      <BPlusTreeSimulator />
+      <BitcaskSimulator />
     </main>
   );
 }
