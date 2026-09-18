@@ -1,25 +1,25 @@
 # SchemaMentor
 
-一个用于理解存储引擎内部原理的中文交互学习平台。通过亲手操作、结构动画和同步解释，观察 B+ Tree 如何定位、写入与分裂。
+SchemaMentor is an interactive learning platform for database storage-engine internals. It turns a user action into an observable sequence of state changes, structural diagrams, and synchronized explanations.
 
-## 设计与 AI 开发约定
+## Design and AI development conventions
 
-**[设计与交互原则](docs/design-principles.md)** 是后续页面开发的主要依据，包含学习闭环、布局与视觉 token、动画规范、状态架构、交互边界、可复用 AI 任务模板和验收清单。AI 入口约定位于 [AGENTS.md](AGENTS.md)。
+[Design and interaction principles](docs/design-principles.md) is the primary reference for future page work. It defines the learning loop, layout and visual tokens, animation semantics, state architecture, interaction boundaries, reusable AI task prompts, and acceptance checks. [AGENTS.md](AGENTS.md) is the concise entry point for contributors and AI agents.
 
-## 当前能力
+## Current capabilities
 
-- `/`：探索空间，含可操作的插入分裂小实验。
-- `/simulators`：实验目录，包含 3 个可体验的存储引擎实验。
-- `/simulators/bptree`：唯一整数键插入、逐层查找、临时溢出与分裂、不可变快照、暂停/单步/回放/速度、自定义输入、3 个预设与 2–5 键容量。
-- `/simulators/lsm`：MemTable 有序写入、冻结、顺序 Flush、Level 0 文件与重复 key 的 Compaction；支持阈值调整、自定义键值和逐帧回放。
-- `/simulators/bitcask`：追加日志、Keydir 到最新 offset 的映射、旧记录可见状态与合并回收；支持自定义键值和逐帧回放。
-- `/guide`：观察任务、学习路径与教学模型边界。
+- `/` — Exploration space with a small, interactive B+ Tree insertion-and-split preview.
+- `/simulators` — Catalog of three interactive storage-engine labs.
+- `/simulators/bptree` — Unique integer-key insertion, root-to-leaf search, visible transient overflow and splitting, immutable snapshots, pause/step/replay/speed controls, custom input, three presets, and a 2–5 key node capacity.
+- `/simulators/lsm` — Ordered MemTable writes, freezing, sequential flushing, Level 0 SSTables, and compaction of repeated keys. Includes configurable thresholds, custom key-value writes, and frame-by-frame playback.
+- `/simulators/bitcask` — Append-only records, Keydir mappings to the latest offset, visible stale records, and compaction. Includes custom key-value writes and frame-by-frame playback.
+- `/guide` — Observation tasks, a learning path, and the scope of each teaching model.
 
-WAL、数据页布局、删除、并发与真实磁盘 I/O 等主题尚未实现。每个实验明确标注了教学模型的边界；当前 B+ Tree 用键数模拟容量，单次分裂帧展示所有级联分裂的最终结构。
+WAL, data-page layout, deletes, concurrency, and real disk I/O are not implemented. Every lab calls out its teaching-model boundary. The B+ Tree uses key count as its capacity model, and its split frame shows the final result of a cascading split sequence.
 
-## 运行与验证
+## Run and validate
 
-使用 Node.js 20.9+：
+Requires Node.js 20.9 or later:
 
 ```bash
 npm ci
@@ -31,25 +31,29 @@ npm run test
 npm run build
 ```
 
-Next.js 16、React 19、TypeScript、Tailwind CSS 4、Vitest。使用系统字体；无需配置数据库、账号或远程字体服务。
+The stack is Next.js 16, React 19, TypeScript, Tailwind CSS 4, and Vitest. The app uses system fonts and does not require a database, account, or remote font service.
 
-## 结构
+## Project structure
 
 ```text
-app/components/     导航、目录、树图、首页小实验、B+ Tree 实验界面
-app/simulators/     实验目录和 B+ Tree 路由
-app/guide/          学习指南
-app/globals.css     全站视觉 token、布局、响应式与减少动画支持
-lib/bPlusTreeSimulator.ts       领域模型
-lib/bPlusTreeLesson.ts          教学快照、查找路径与结构统计
-lib/*.test.ts                  领域与内容模型测试
-content/                       MDX 内容模型示例（尚未接入页面渲染）
-docs/design-principles.md       可持续迭代的设计与交互约定
-AGENTS.md                      AI 开发入口
+app/components/              Navigation, catalog, diagrams, landing preview, and lab UIs
+app/simulators/              B+ Tree, LSM Tree, and Bitcask routes
+app/guide/                   Learning guide
+app/globals.css              Design tokens, layout, responsive styles, and reduced-motion support
+lib/bPlusTreeSimulator.ts    B+ Tree domain model
+lib/bPlusTreeLesson.ts       B+ Tree teaching snapshots, paths, and statistics
+lib/lsmLesson.ts             LSM teaching snapshots and statistics
+lib/bitcaskLesson.ts         Bitcask teaching snapshots and statistics
+lib/*.test.ts                Domain and content-model tests
+content/                     Example MDX content model; not yet rendered by the app
+docs/design-principles.md    Design and interaction conventions for continued iteration
+AGENTS.md                    Contributor and AI-agent entry point
 ```
 
-## 静态部署
+## GitLab Pages deployment
 
-配置保留 `output: 'export'`、`trailingSlash` 和可选 `BASE_PATH`。`npm run build` 生成 `out/`，可部署到 GitHub Pages 等静态托管服务。静态导出不要使用 `npm run start` 预览，可运行 `npx serve out`。
+The repository includes a [`.gitlab-ci.yml`](.gitlab-ci.yml) Pages job. It installs dependencies, runs lint and tests, builds the static site, and publishes the `out/` directory whenever the default branch changes. GitLab Pages requires an enabled project runner and an `index.html` file in the published directory. [GitLab Pages documentation](https://docs.gitlab.com/user/project/pages/)
 
-GitHub Actions 工作流位于 `.github/workflows/deploy-github-pages.yml`。在仓库 Settings → Pages 中选择 GitHub Actions；项目站点通过 `BASE_PATH=/<repo>` 构建。当前静态站点没有服务端存储，刷新页面会重新开始实验。
+For a typical project site, the pipeline sets `BASE_PATH=/$CI_PROJECT_NAME`, so generated links work below the project path. If the Pages site is served from the domain root, set the GitLab CI/CD variable `PAGES_BASE_PATH` to `/` in **Settings → CI/CD → Variables** before running the pipeline. The deployed URL is shown in the `deploy-pages` job and under **Deploy → Pages**.
+
+The static site has no server-side persistence, so a refresh resets an in-progress lab. To preview the static export locally, run `npm run build` followed by `npx serve out`; do not use `npm run start` for an exported build.

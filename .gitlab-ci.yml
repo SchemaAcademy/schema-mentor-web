@@ -1,0 +1,24 @@
+image: node:22-bookworm-slim
+
+stages:
+  - deploy
+
+deploy-pages:
+  stage: deploy
+  script:
+    - npm ci
+    - |
+      # Project Pages normally live at /<project-slug>/. Set PAGES_BASE_PATH
+      # to / when the GitLab Pages site is served from the domain root.
+      export BASE_PATH="${PAGES_BASE_PATH:-/$CI_PROJECT_NAME}"
+      npm run lint
+      npm run test
+      npm run build
+    - echo "Pages will be available at ${CI_PAGES_URL}"
+  pages:
+    publish: out
+  environment:
+    name: production
+    url: $CI_PAGES_URL
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
