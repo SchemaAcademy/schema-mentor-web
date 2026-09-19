@@ -50,6 +50,20 @@ docs/design-principles.md    Design and interaction conventions for continued it
 AGENTS.md                    Contributor and AI-agent entry point
 ```
 
+## Live demo
+
+The production demo is deployed from `main` to GitHub Pages:
+
+<https://schemaacademy.github.io/schema-mentor-web/>
+
+The first deployment starts after GitHub Pages is configured to use **GitHub Actions** in the repository settings.
+
+## GitHub Pages deployment
+
+[`.github/workflows/deploy-github-pages.yml`](.github/workflows/deploy-github-pages.yml) validates the project, builds the static export, and deploys the `out/` artifact whenever `main` changes. It uses `/$GITHUB_REPOSITORY`'s project component as the Next.js base path for project sites, while `<owner>.github.io` repositories are built at the domain root.
+
+After the workflow is pushed, select **Settings → Pages → Build and deployment → Source → GitHub Actions**. The `deploy` job then exposes the deployed URL through its `github-pages` environment. The workflow follows GitHub's documented Pages artifact process using `configure-pages`, `upload-pages-artifact`, and `deploy-pages`. [GitHub Pages documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
+
 ## GitLab Pages deployment
 
 The repository includes a [`.gitlab-ci.yml`](.gitlab-ci.yml) Pages job. It installs dependencies, runs lint and tests, builds the static site, and publishes the `out/` directory whenever the default branch changes. GitLab Pages requires an enabled project runner and an `index.html` file in the published directory. [GitLab Pages documentation](https://docs.gitlab.com/user/project/pages/)
